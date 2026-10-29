@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="JUUMAO DJ, music player minimalis dengan audio visualizer dan equalizer.">
+  <title>JUUMAO DJ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="JUUMAO DJ home">
+        <span class="brand-mark">J.</span>
+        <span>JUUMAO <small>DJ SYSTEM</small></span>
+      </a>
+      <button class="icon-btn" id="addTop" aria-label="Tambah lagu">＋</button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow"><span class="live-dot"></span> PERSONAL AUDIO PLAYER</div>
+        <h1>Feel the<br><span>frequency.</span></h1>
+        <p>Your music. Your space. Your rhythm.</p>
+      </section>
+
+      <section class="deck panel">
+        <div class="deck-head">
+          <span>NOW PLAYING</span>
+          <span class="status" id="status">STANDBY</span>
+        </div>
+
+        <div class="visual-wrap">
+          <canvas id="visualizer" aria-label="Audio visualizer"></canvas>
+          <div class="disc" id="disc">
+            <div class="disc-inner">
+              <div class="disc-logo">J<span>.</span></div>
+            </div>
+          </div>
+          <div class="visual-label" id="visualLabel">READY TO PLAY</div>
+        </div>
+
+        <div class="track-info">
+          <div class="track-copy">
+            <h2 id="trackTitle">No track selected</h2>
+            <p id="trackArtist">Add music from your device</p>
+          </div>
+          <button class="icon-btn favorite" id="favoriteBtn" aria-label="Favoritkan lagu">♡</button>
+        </div>
+
+        <div class="timeline">
+          <input id="seek" type="range" min="0" max="1000" value="0" aria-label="Posisi lagu">
+          <div class="time-row">
+            <span id="currentTime">0:00</span>
+            <span id="duration">0:00</span>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="control-btn small" id="shuffleBtn" aria-label="Acak lagu">⤨</button>
+          <button class="control-btn" id="prevBtn" aria-label="Lagu sebelumnya">◀|</button>
+          <button class="play-btn" id="playBtn" aria-label="Putar">▶</button>
+          <button class="control-btn" id="nextBtn" aria-label="Lagu berikutnya">|▶</button>
+          <button class="control-btn small" id="repeatBtn" aria-label="Ulangi">↻</button>
+        </div>
+
+        <div class="volume-row">
+          <span>VOL</span>
+          <span>◖</span>
+          <input id="volume" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume">
+          <span id="volumeValue">80%</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">YOUR COLLECTION</span>
+            <h2>Playlist <span id="songCount">0</span></h2>
+          </div>
+          <button class="text-btn" id="addBtn">＋ Add tracks</button>
+        </div>
+
+        <input id="fileInput" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg,.aac,.flac,.opus" multiple hidden>
+
+        <div class="drop-zone" id="dropZone">
+          <div class="upload-icon">↥</div>
+          <div><strong>Import your music</strong><p>Pilih file audio dari HP kamu</p></div>
+          <button class="outline-btn" id="browseBtn">Browse files</button>
+        </div>
+
+        <div class="playlist" id="playlist">
+          <div class="empty-state">Belum ada lagu di playlist.</div>
+        </div>
+      </section>
+
+      <section class="section eq-section panel">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">SOUND CONTROL</span>
+            <h2>Equalizer</h2>
+          </div>
+          <button class="text-btn" id="resetEq">Reset</button>
+        </div>
+
+        <div class="eq-visual" id="eqVisual" aria-hidden="true"></div>
+
+        <div class="presets">
+          <button class="preset active" data-preset="flat">Flat</button>
+          <button class="preset" data-preset="bass">Bass</button>
+          <button class="preset" data-preset="club">Club</button>
+          <button class="preset" data-preset="vocal">Vocal</button>
+        </div>
+
+        <div class="eq-controls">
+          <label class="eq-band">
+            <input type="range" min="-12" max="12" value="0" step="1" data-eq="0">
+            <span>60 Hz</span><small>LOW</small>
+          </label>
+          <label class="eq-band">
+            <input type="range" min="-12" max="12" value="0" step="1" data-eq="1">
+            <span>230 Hz</span><small>LOW MID</small>
+          </label>
+          <label class="eq-band">
+            <input type="range" min="-12" max="12" value="0" step="1" data-eq="2">
+            <span>910 Hz</span><small>MID</small>
+          </label>
+          <label class="eq-band">
+            <input type="range" min="-12" max="12" value="0" step="1" data-eq="3">
+            <span>3.6 kHz</span><small>HIGH MID</small>
+          </label>
+          <label class="eq-band">
+            <input type="range" min="-12" max="12" value="0" step="1" data-eq="4">
+            <span>14 kHz</span><small>HIGH</small>
+          </label>
+        </div>
+        <p class="hint">Pengaturan equalizer memengaruhi suara jika browser mendukung pemrosesan audio.</p>
+      </section>
+
+      <section class="stats">
+        <div class="stat panel"><span>TRACKS</span><strong id="statTracks">00</strong></div>
+        <div class="stat panel"><span>PLAYED</span><strong id="statPlayed">00</strong></div>
+        <div class="stat panel"><span>MODE</span><strong id="statMode">NORMAL</strong></div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-brand">JUUMAO<span>.</span></div>
+      <p>Built for the love of sound.</p>
+      <small>Local audio · No account required</small>
+    </footer>
+
+    <div class="toast" id="toast" role="status"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+  </html>
+  
